@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<style >
+	table, th , td  {
+  border: 1px solid grey;
+  border-collapse: collapse;
+  padding: 5px;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<body>
+
+<div ng-app="myApp" ng-controller="customersCtrl1"> 
+
+<table style="float: left">
+<caption>SLA1</caption>
+	<tr>
+    <th>Minor</th>
+    <th>Distance</th> 
+    
+  </tr>
+  <tr ng-repeat="x in names1">
+
+    <td>{{ x.minor }}</td>
+    <td>{{ x.dist}}</td>
+  </tr>
+</table>
+
+<table style="float: left">
+<caption>SLA2</caption>
+	<tr>
+    <th>Minor</th>
+    <th>Distance</th> 
+    
+  </tr>
+  <tr ng-repeat="x in names1">
+
+    <td>{{ x.minor }}</td>
+    <td>{{ x.dist}}</td>
+  </tr>
+</table>
+
+</div>
+
+<script>
+
+var app = angular.module('myApp', []);
+
+app.config(['$qProvider', function ($qProvider) {
+    $qProvider.errorOnUnhandledRejections(false);
+}]);
+
+app.controller('customersCtrl1', function($scope, $http) {
+    $http.get('http://127.0.0.1:8081/show')
+    .then(function (response) {
+    	$scope.names1 = response.data;
+    	console.log(response.data);
+    	});
+});
+
+</script>
+
+</body>
+</html>
