@@ -12,50 +12,61 @@
 
 <div ng-app="myApp" ng-controller="customersCtrl1"> 
 
-<table style="float: left">
+<!--table style="float: left">
 <caption>SLA1</caption>
 	<tr>
     <th>Minor</th>
     <th>Distance</th> 
     
-  </tr>
-  <tr ng-repeat="x in names1">
-
-    <td>{{ x.minor }}</td>
-    <td>{{ x.dist}}</td>
-  </tr>
-</table>
-
-<table style="float: left">
-<caption>SLA2</caption>
-	<tr>
+  </tr-->
+  <h1> {{rand}}</h1>
+<table style="float: left" ng-repeat="(num,value) in names" >
+<caption>SLA{{num+1}}</caption>
+  <tr>
     <th>Minor</th>
     <th>Distance</th> 
     
   </tr>
-  <tr ng-repeat="x in names1">
+  <tr ng-repeat="y in value">
 
-    <td>{{ x.minor }}</td>
-    <td>{{ x.dist}}</td>
+        <td>{{ y.minor }}</td>
+        <td>{{ y.dist}}</td>
+        
   </tr>
 </table>
-
 </div>
 
 <script>
-
 var app = angular.module('myApp', []);
-
 app.config(['$qProvider', function ($qProvider) {
     $qProvider.errorOnUnhandledRejections(false);
 }]);
-
-app.controller('customersCtrl1', function($scope, $http) {
+/*
+app.controller('customersCtrl1', function($scope, $http,$timeout) {
+  $scope.reload = function () {
     $http.get('http://127.0.0.1:8081/show')
     .then(function (response) {
-    	$scope.names1 = response.data;
-    	console.log(response.data);
+    	$scope.names = response.data;
     	});
+    $timeout(function(){
+      $scope.reload();
+    },3)
+  };
+  $scope.reload();
+}); 
+*/
+
+app.controller('customersCtrl1', function($scope, $http,$timeout,$interval) {
+  
+   $http.get('http://127.0.0.1:8081/show')
+    .then(function (response) {
+      $scope.names = response.data;
+      });
+    $interval(function () {
+       location.reload();
+    }, 5000);
+    
+
 });
 
 </script>
